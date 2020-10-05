@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "823343122519",
+    "firebase_url": "https://st-database-21926.firebaseio.com",
+    "project_id": "st-database-21926",
+    "storage_bucket": "st-database-21926.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823343122519:android:5341b0e72877028459fb12",
+        "android_client_info": {
+          "package_name": "com.strength_together.strength_together"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "823343122519-hhd8gibvbi9eluhp873mr124mvgo0qbu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.strength_together.strength_together",
+            "certificate_hash": "e475ddfab45cd0b5582987c7a3d0356b1489c814"
+          }
+        },
+        {
+          "client_id": "823343122519-rn2idiitm7mlq8ru9o4mf19oh40kpgol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG592wqNwwQx7C0EIj4vfrvO19Y4KKz8U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "823343122519-rn2idiitm7mlq8ru9o4mf19oh40kpgol.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "823343122519-rfggukuge0qiucvv48c0u9445ac1i1v5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.strengthtogether.strengthTogether"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
