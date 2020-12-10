@@ -4,7 +4,6 @@ import 'package:strength_together/models/user.dart';
 import 'package:strength_together/services/auth.dart';
 import 'package:strength_together/Screens/home/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:strength_together/Screens/authenticate/sign_in.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

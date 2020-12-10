@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:strength_together/Screens/authenticate/register.dart';
 import 'package:strength_together/models/user.dart';
 import 'package:strength_together/services/database.dart';
-import 'package:flutter/material.dart';
 
 class AuthService{
 
@@ -53,13 +51,13 @@ class AuthService{
   }
 
   //method to register with email/pass
-  Future registerWithEmailAndPassword(String email, String password) async{
+  Future registerWithEmailAndPassword(String email, String password, String name, String counselorEmail) async{
     try{
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User user = result.user;
 
       //create a new document for that user with the uid
-      await DatabaseService(uid: user.uid).updateUserData('New user', _counselor);
+      await DatabaseService(uid: user.uid).updateUserData(name, _counselor, counselorEmail);
 
       return _userFromFirebaseUser(user);
     }catch(e){

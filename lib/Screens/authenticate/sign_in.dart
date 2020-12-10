@@ -30,7 +30,8 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0.0,
-        title: Text('Sign in to Strength Together',
+        title: Text(
+          'Sign in',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.yellow
