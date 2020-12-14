@@ -41,23 +41,21 @@ class CounselorHome extends StatelessWidget {
             )
           ],
         ),
-        body: ListView.builder(
-            itemBuilder: (context, index){
-              return Padding(
-                  padding: const EdgeInsets.all(12.0),
-                child: Container(
-                  height: 50,
-                  color: Colors.grey[900],
-                  child: Center(
-                    child: Text(
-                      'Student 1',
-                      style: TextStyle(color: Colors.yellow),
-                    ),
-                  ),
+        body: ListView.builder(itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Container(
+              height: 50,
+              color: Colors.grey[900],
+              child: Center(
+                child: Text(
+                  'Student 2',
+                  style: TextStyle(color: Colors.yellow),
                 ),
-              );
-            }
-        ),
+              ),
+            ),
+          );
+        }),
       ),
     );
   }
