@@ -1,26 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class DatabaseService {
-
   final String uid;
 
   DatabaseService({this.uid});
 
   //collection reference
-  final CollectionReference userCollection = FirebaseFirestore.instance.collection('User Data');
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('UserData');
 
   bool student = false;
 
-  Future updateUserData(String name, bool counselor, String counselorEmail) async {
-    if(counselor == null){
+  Future updateUserData(
+      String name, bool counselor, String counselorEmail) async {
+    if (counselor == null) {
       counselor = student;
     }
     return await userCollection.doc(uid).set({
       'name': name,
       'Counselor': counselor,
-      if(counselor == student)
-      'counselors Email': counselorEmail,
+      if (counselor == student) 'counselors Email': counselorEmail,
     });
   }
 
@@ -28,5 +27,4 @@ class DatabaseService {
   Stream<QuerySnapshot> get userData {
     return userCollection.snapshots();
   }
-
 }

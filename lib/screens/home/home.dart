@@ -10,13 +10,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
-  void customLaunch(command) async{
-    if(await canLaunch(command)){
+  void customLaunch(command) async {
+    if (await canLaunch(command)) {
       await launch(command);
-    }else{
+    } else {
       print("could not launch $command");
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return WebviewScaffold(
@@ -32,14 +33,18 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.black,
         elevation: 0.0,
         actions: <Widget>[
-          FlatButton(onPressed: (){
-            customLaunch('tel:+1 708 510 9397');
-          }, child: Text('Panic',
-            style: TextStyle(color: Colors.red,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-          )),
+          FlatButton(
+              onPressed: () {
+                customLaunch('tel:+1 708 510 9397');
+              },
+              child: Text(
+                'Panic',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              )),
           FlatButton.icon(
             icon: Icon(
               Icons.person,
@@ -61,7 +66,7 @@ class _HomeState extends State<Home> {
         ],
       ),
       url:
-      "https://webchat.botframework.com/embed/STAPPBOT?s=T3d4crx0NCU.5p8D_mrHFkZdqRjhWTdCqvCMWcHLY1cZq4vYt5IRcm8",
+          "https://webchat.botframework.com/embed/STAPPBOT?s=T3d4crx0NCU.5p8D_mrHFkZdqRjhWTdCqvCMWcHLY1cZq4vYt5IRcm8",
     );
   }
 }

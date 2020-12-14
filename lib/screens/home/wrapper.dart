@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:strength_together/Screens/authenticate/authenticate.dart';
-import 'package:strength_together/Screens/home/counsHome.dart';
-import 'package:strength_together/Screens/home/home.dart';
+import 'package:strength_together/screens/authenticate/authenticate.dart';
+import 'package:strength_together/screens/home/counsHome.dart';
+import 'package:strength_together/screens/home/home.dart';
 import 'package:strength_together/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -24,12 +24,8 @@ class WrapperState extends State<Wrapper> {
     if (user == null || user.uid == null) {
       return Authenticate();
     } else if (counselor == true) {
-      print('true');
-      print(user);
       return CounselorHome();
     } else if (counselor == false || counselor == null) {
-      print('\n' + 'false');
-      print(user.uid);
       return Home();
     }
   }
