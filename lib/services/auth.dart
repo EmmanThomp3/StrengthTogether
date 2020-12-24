@@ -17,7 +17,7 @@ class AuthService{
 
   //create user obj based on firebase user from my code
   SUser _userFromFirebaseUser(User user){
-    return user != null ? SUser(uid: user.uid) : null;
+    return user != null ? SUser(uid: user.uid,) : null;
   }
 
   //auth change user stream
@@ -51,13 +51,13 @@ class AuthService{
   }
 
   //method to register with email/pass
-  Future registerWithEmailAndPassword(String email, String password, String name, String counselorEmail) async{
+  Future registerWithEmailAndPassword(String email, String password, String name, String counselorEmail, String imageUrl) async{
     try{
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User user = result.user;
 
       //create a new document for that user with the uid
-      await DatabaseService(uid: user.uid).updateUserData(name, _counselor, counselorEmail);
+      await DatabaseService(uid: user.uid).updateUserData(name, _counselor, counselorEmail,imageUrl);
 
       return _userFromFirebaseUser(user);
     }catch(e){

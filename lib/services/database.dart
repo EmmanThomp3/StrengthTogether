@@ -12,13 +12,14 @@ class DatabaseService {
 
   bool student = false;
 
-  Future updateUserData(String name, bool counselor, String counselorEmail) async {
+  Future updateUserData(String name, bool counselor, String counselorEmail, String imageUrl) async {
     if(counselor == null){
       counselor = student;
     }
     return await userCollection.doc(uid).set({
       'name': name,
       'Counselor': counselor,
+      'imageUrl': imageUrl,
       if(counselor == student)
       'counselors Email': counselorEmail,
     });

@@ -22,7 +22,7 @@ class WrapperState extends State<Wrapper>
     return Provider.of<SUser>(context);
   }
 
-  dynamic getStartingPage(bool counselor,SUser user)
+  dynamic getStartingPage(bool counselor,SUser user, DocumentSnapshot dataSnapshotForCounselor)
   {
 
     if (user == null || user.uid == null){
@@ -31,7 +31,7 @@ class WrapperState extends State<Wrapper>
     else if(counselor == true){
       print('true');
       print(user);
-      return CounselorHome();
+      return CounselorHome(user:user, userData:dataSnapshotForCounselor);
     }else if(counselor == false || counselor == null){
       print('\n'+'false');
       print(user.uid);
@@ -86,7 +86,7 @@ class WrapperState extends State<Wrapper>
           if(snapshot.hasData){
             print('has data');
 
-            return getStartingPage(getCounselorValue(snapshot.data),getUser(context));
+            return getStartingPage(getCounselorValue(snapshot.data),getUser(context), snapshot.data);
           }
             return Authenticate();
         }

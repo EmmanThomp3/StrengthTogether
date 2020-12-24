@@ -1,7 +1,13 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:strength_together/services/auth.dart';
 import 'package:strength_together/shared/constants.dart';
 import 'package:strength_together/shared/loading.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class Register extends StatefulWidget {
 
@@ -32,6 +38,40 @@ class _RegisterState extends State<Register> {
   bool _signPhase1 = true;
   bool _signPhase2 = false;
   bool _student = false;
+  String imageUrl = "";
+  File image;
+    final picker = ImagePicker();
+
+  FirebaseStorage _storage = FirebaseStorage.instance;
+
+      Future<Uri> uploadPic() async {
+
+    //Get the file from the image picker and store it 
+    PickedFile image_ = await picker.getImage(source: ImageSource.gallery);  
+
+    File image__ = File(image_.path);  
+    setState((){
+      image = image__;
+    });
+    //Create a reference to the location you want to upload to in firebase  
+        String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    Reference reference = _storage.ref().child(fileName);
+    UploadTask uploadTask = reference.putFile(image__);
+    TaskSnapshot storageTaskSnapshot = await uploadTask;
+    storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
+      print(downloadUrl);
+      setState(() {
+      //  isLoading = false;
+        imageUrl = downloadUrl;
+      });
+    }, onError: (err) {
+      print(err);
+    //   setState(() {
+    // //    isLoading = false;
+    //   });
+    });
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -90,9 +130,10 @@ class _RegisterState extends State<Register> {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-        child: Form(
+        child:  Form(
           key: _formKey,
-          child: Column(
+          child:Column(
+          mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               SizedBox(height: 20.0),
               Visibility(
@@ -141,6 +182,22 @@ class _RegisterState extends State<Register> {
                       )
                   ),
               ),
+              SizedBox(height: 20.0),
+                Visibility(
+                visible: _signPhase2,
+                child:   image == null ? 
+                    Expanded(
+                      child:Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: uploadPic, 
+                        child: Image.asset('assets/images/addImageIcon.png',
+                    width: 140, height: 140))))
+                    :Expanded(
+                      child:ClipRRect(
+                      borderRadius: BorderRadius.circular(70),
+                     child: Image.file(image, width: 140, height: 140,
+                    fit: BoxFit.contain)))),
               SizedBox(height: 20.0),
               Visibility(
                 child: Align(
@@ -201,7 +258,7 @@ class _RegisterState extends State<Register> {
                     onPressed: () async{
                       if(_formKey.currentState.validate()){
                         setState(() => loading = true);
-                        dynamic result = await _auth.registerWithEmailAndPassword(email, password, name, counselorEmail);
+                        dynamic result = await _auth.registerWithEmailAndPassword(email, password, name, counselorEmail,imageUrl);
                         if(result == null){
                           setState(() {
                             error = 'Please supply a valid email';
@@ -218,7 +275,7 @@ class _RegisterState extends State<Register> {
                 style: TextStyle(color: Colors.red, fontSize: 14.0),
               ),
             ],
-          ),
+            ),
         ),
       ),
     );

@@ -3,14 +3,41 @@ import 'package:strength_together/services/auth.dart';
 import 'package:strength_together/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:strength_together/models/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CounselorHome extends StatelessWidget {
   final AuthService _auth = AuthService();
+    final SUser user;
+    final DocumentSnapshot userData;
+  CounselorHome({
+    Key key,
+    this.user,
+    this.userData
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StreamProvider<QuerySnapshot>.value(
       value: DatabaseService().userData,
-      child: Scaffold(
+      child: SecondWidget(user:user, userData:userData),
+    );
+  }
+}
+
+class SecondWidget extends StatelessWidget{
+  final AuthService _auth = AuthService();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+      final SUser user;
+      final DocumentSnapshot userData;
+  SecondWidget({
+    Key key,
+    this.user,
+    this.userData
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
         backgroundColor: Colors.grey[400],
         appBar: AppBar(
           title: Text(
@@ -42,23 +69,29 @@ class CounselorHome extends StatelessWidget {
           ],
         ),
         body: ListView.builder(
+         itemCount: Provider.of<QuerySnapshot>(context).docs.length,
             itemBuilder: (context, index){
-              return Padding(
+              print(user);
+              print(Provider.of<QuerySnapshot>(context).docs[index].data()['counselors Email']);
+        return  Provider.of<QuerySnapshot>(context).docs[index].data() != null
+             && Provider.of<QuerySnapshot>(context).docs[index].data()['counselors Email'] != null
+             && Provider.of<QuerySnapshot>(context).docs[index].data()['counselors Email'] == auth.currentUser.email
+?Padding(
                   padding: const EdgeInsets.all(12.0),
                 child: Container(
                   height: 50,
                   color: Colors.grey[900],
                   child: Center(
                     child: Text(
-                      'Student 1',
+                      Provider.of<QuerySnapshot>(context).docs[index].data()['name']??'',
                       style: TextStyle(color: Colors.yellow),
                     ),
                   ),
                 ),
-              );
-            }
+              ):Container();                
+              }
+           
         ),
-      ),
-    );
+      );
   }
 }
