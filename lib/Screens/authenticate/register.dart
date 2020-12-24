@@ -194,10 +194,11 @@ class _RegisterState extends State<Register> {
                         child: Image.asset('assets/images/addImageIcon.png',
                     width: 140, height: 140))))
                     :Expanded(
-                      child:ClipRRect(
-                      borderRadius: BorderRadius.circular(70),
+                      child:Container(
+                      decoration:BoxDecoration(
+                        borderRadius: BorderRadius.circular(70)),
                      child: Image.file(image, width: 140, height: 140,
-                    fit: BoxFit.contain)))),
+                    fit: BoxFit.cover)))),
               SizedBox(height: 20.0),
               Visibility(
                 child: Align(
