@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:strength_together/Screens/home/studentInformation.dart';
 import 'package:strength_together/services/auth.dart';
 import 'package:strength_together/services/database.dart';
 import 'package:provider/provider.dart';
@@ -8,90 +9,100 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class CounselorHome extends StatelessWidget {
   final AuthService _auth = AuthService();
-    final SUser user;
-    final DocumentSnapshot userData;
-  CounselorHome({
-    Key key,
-    this.user,
-    this.userData
-  }) : super(key: key);
+  final SUser user;
+  final DocumentSnapshot userData;
+  CounselorHome({Key key, this.user, this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StreamProvider<QuerySnapshot>.value(
       value: DatabaseService().userData,
-      child: SecondWidget(user:user, userData:userData),
+      child: SecondWidget(user: user, userData: userData),
     );
   }
 }
 
-class SecondWidget extends StatelessWidget{
+class SecondWidget extends StatelessWidget {
   final AuthService _auth = AuthService();
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-      final SUser user;
-      final DocumentSnapshot userData;
-  SecondWidget({
-    Key key,
-    this.user,
-    this.userData
-  }) : super(key: key);
+  final SUser user;
+  final DocumentSnapshot userData;
+  SecondWidget({Key key, this.user, this.userData}) : super(key: key);
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey[400],
-        appBar: AppBar(
-          title: Text(
-            'Counselor page',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+      backgroundColor: Colors.grey[400],
+      appBar: AppBar(
+        title: Text(
+          'Counselor page',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.yellow,
+          ),
+        ),
+        backgroundColor: Colors.black,
+        elevation: 0.0,
+        actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(
+              Icons.person,
               color: Colors.yellow,
             ),
-          ),
-          backgroundColor: Colors.black,
-          elevation: 0.0,
-          actions: <Widget>[
-            FlatButton.icon(
-              icon: Icon(
-                Icons.person,
+            label: Text(
+              'Logout',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
                 color: Colors.yellow,
               ),
-              label: Text(
-                'Logout',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.yellow,
-                ),
-              ),
-              onPressed: () async {
-                await _auth.signOut();
-              },
-            )
-          ],
-        ),
-        body: ListView.builder(
-         itemCount: Provider.of<QuerySnapshot>(context).docs.length,
-            itemBuilder: (context, index){
-              print(user);
-              print(Provider.of<QuerySnapshot>(context).docs[index].data()['counselors Email']);
-        return  Provider.of<QuerySnapshot>(context).docs[index].data() != null
-             && Provider.of<QuerySnapshot>(context).docs[index].data()['counselors Email'] != null
-             && Provider.of<QuerySnapshot>(context).docs[index].data()['counselors Email'] == auth.currentUser.email
-?Padding(
-                  padding: const EdgeInsets.all(12.0),
-                child: Container(
-                  height: 50,
-                  color: Colors.grey[900],
-                  child: Center(
-                    child: Text(
-                      Provider.of<QuerySnapshot>(context).docs[index].data()['name']??'',
-                      style: TextStyle(color: Colors.yellow),
-                    ),
-                  ),
-                ),
-              ):Container();                
-              }
-           
-        ),
-      );
+            ),
+            onPressed: () async {
+              await _auth.signOut();
+            },
+          )
+        ],
+      ),
+      body: Provider.of<QuerySnapshot>(context) != null?ListView.builder(
+          itemCount: Provider.of<QuerySnapshot>(context).docs.length,
+          itemBuilder: (context, index) {
+            return Provider.of<QuerySnapshot>(context).docs[index].data() !=
+                        null &&
+                    Provider.of<QuerySnapshot>(context)
+                            .docs[index]
+                            .data()['counselors Email'] !=
+                        null &&
+                    Provider.of<QuerySnapshot>(context)
+                            .docs[index]
+                            .data()['counselors Email'] ==
+                        auth.currentUser.email
+                ? Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Material(
+                      child:InkWell(
+                        onTap:(){
+                           return Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => StudentInformation(
+                            user:Provider.of<QuerySnapshot>(context)
+                            .docs[index]
+                            .data()
+                          )),
+                        );
+                        },
+                        child:Container(
+                      height: 50,
+                      color: Colors.grey[900],
+                      child: Center(
+                        child: Text(
+                          Provider.of<QuerySnapshot>(context)
+                                  .docs[index]
+                                  .data()['name'] ??
+                              '',
+                          style: TextStyle(color: Colors.yellow),
+                        ),
+                      ),
+                     ) ) ),
+                  )
+                : Container();
+          }):Container(),
+    );
   }
 }

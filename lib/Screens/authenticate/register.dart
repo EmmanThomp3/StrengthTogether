@@ -59,7 +59,7 @@ class _RegisterState extends State<Register> {
     Reference reference = _storage.ref().child(fileName);
     UploadTask uploadTask = reference.putFile(image__);
     TaskSnapshot storageTaskSnapshot = await uploadTask;
-    storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
+    await storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
       print(downloadUrl);
       setState(() {
       //  isLoading = false;
