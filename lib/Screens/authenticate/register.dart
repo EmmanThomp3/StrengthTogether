@@ -128,8 +128,11 @@ class _RegisterState extends State<Register> {
           ),
         ],
       ),
-      body: Container(
+      body: SingleChildScrollView(
+            child:Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+         height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
         child:  Form(
           key: _formKey,
           child:Column(
@@ -276,7 +279,7 @@ class _RegisterState extends State<Register> {
                 style: TextStyle(color: Colors.red, fontSize: 14.0),
               ),
             ],
-            ),
+           ) ),
         ),
       ),
     );
