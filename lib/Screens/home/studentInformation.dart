@@ -44,6 +44,7 @@ class StudentInformation extends StatelessWidget {
               ),
               onPressed: () async {
                 await _auth.signOut();
+
               },
             )
           ],
