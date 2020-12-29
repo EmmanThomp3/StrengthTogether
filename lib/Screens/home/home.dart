@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:strength_together/Screens/home/sessionCompleted.dart';
 import 'package:strength_together/services/auth.dart';
@@ -7,9 +8,11 @@ import 'package:strength_together/services/database.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:strength_together/models/user.dart';
 
 class Home extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   Home({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -22,17 +25,20 @@ class Home extends StatelessWidget {
 
 class HomeChild extends StatelessWidget {
   final AuthService _auth = AuthService();
+  final FirebaseAuth _uid = FirebaseAuth.instance;
   void customLaunch(command) async{
     if(await canLaunch(command)){
       await launch(command);
+      print(_uid.currentUser.uid);
     }else{
       print("could not launch $command");
+      print(_uid.currentUser.uid);
     }
   }
   @override
   Widget build(BuildContext context) {
     if(Provider.of<DocumentSnapshot>(context) != null){
-      if(!Provider.of<DocumentSnapshot>(context).data()['active']){
+      if(Provider.of<DocumentSnapshot>(context).data()['active']){
     return WebviewScaffold(
       appBar: AppBar(
         title: Text(
@@ -75,11 +81,13 @@ class HomeChild extends StatelessWidget {
         ],
       ),
       url:
-      "https://webchat.botframework.com/embed/STAPPBOT?s=T3d4crx0NCU.5p8D_mrHFkZdqRjhWTdCqvCMWcHLY1cZq4vYt5IRcm8",
+      "https://webchat.botframework.com/embed/STAPPBOT?s=T3d4crx0NCU.5p8D_mrHFkZdqRjhWTdCqvCMWcHLY1cZq4vYt5IRcm8&userid=" + _uid.currentUser.uid,
     );
       }else{
        return SessionCompleted();
       }
+    }else{
+      return Container();
     }
 
   }
