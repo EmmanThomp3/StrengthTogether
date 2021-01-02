@@ -78,11 +78,15 @@ class SecondWidget extends StatelessWidget {
                     child: Material(
                       child:InkWell(
                         onTap:(){
+                          var newUserData = Provider.of<QuerySnapshot>(context,listen:false)
+                            .docs[index]
+                            .data();
+                          newUserData['uid'] = Provider.of<QuerySnapshot>(context,listen:false)
+                            .docs[index].id;
+                            print(newUserData['uid']);
                            return Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) => StudentInformation(
-                            user:Provider.of<QuerySnapshot>(context)
-                            .docs[index]
-                            .data()
+                            user:newUserData
                           )),
                         );
                         },

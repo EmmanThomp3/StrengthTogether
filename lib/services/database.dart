@@ -43,4 +43,9 @@ class DatabaseService {
     return summaryCollection.doc(uid).snapshots();
   }
 
+        //get user data stream
+  Stream<QuerySnapshot> get allSummaryData {
+    return summaryCollection.snapshots();
+  }
+
 }

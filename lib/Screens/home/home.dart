@@ -38,7 +38,7 @@ class HomeChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if(Provider.of<DocumentSnapshot>(context) != null){
-      if(Provider.of<DocumentSnapshot>(context).data()['active']){
+      if(Provider.of<DocumentSnapshot>(context).data()['active'] != null&&Provider.of<DocumentSnapshot>(context).data()['active']){
     return WebviewScaffold(
       appBar: AppBar(
         title: Text(
