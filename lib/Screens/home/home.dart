@@ -39,8 +39,8 @@ class HomeChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (Provider.of<DocumentSnapshot>(context) != null && Provider.of<DocumentSnapshot>(context).data() != null) {
-      if (Provider.of<DocumentSnapshot>(context).data()['active'] != null &&
-          Provider.of<DocumentSnapshot>(context).data()['active']) {
+      if (Provider.of<DocumentSnapshot>(context).data()['active'] != null){
+          if(Provider.of<DocumentSnapshot>(context).data()['active']) {
         return WebviewScaffold(
           appBar: AppBar(
             title: Text(
@@ -92,6 +92,57 @@ class HomeChild extends StatelessWidget {
         );
       } else {
         return SessionCompleted();
+      }
+      }else{
+        return WebviewScaffold(
+          appBar: AppBar(
+            title: Text(
+              'ST',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.yellow,
+                fontSize: 40,
+              ),
+            ),
+            backgroundColor: Colors.black,
+            elevation: 0.0,
+            actions: <Widget>[
+              FlatButton(
+                  onPressed: () {
+                    customLaunch('tel:+1 708 510 9397');
+                  },
+                  child: Text(
+                    'Panic',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  )),
+              FlatButton.icon(
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.yellow,
+                  size: 20,
+                ),
+                label: Text(
+                  'Logout',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.yellow,
+                    fontSize: 20,
+                  ),
+                ),
+                onPressed: () async {
+                  await _auth.signOut();
+                },
+              )
+            ],
+          ),
+          url:
+              "https://webchat.botframework.com/embed/STAPPBOT?s=T3d4crx0NCU.5p8D_mrHFkZdqRjhWTdCqvCMWcHLY1cZq4vYt5IRcm8&userid=" +
+                  _uid.currentUser.uid,
+        );
       }
     } else {
       return Container();
