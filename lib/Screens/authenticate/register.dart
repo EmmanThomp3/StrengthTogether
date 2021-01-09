@@ -132,7 +132,7 @@ class _RegisterState extends State<Register> {
             child:Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
          height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+         width: MediaQuery.of(context).size.width,
         child:  Form(
           key: _formKey,
           child:Column(

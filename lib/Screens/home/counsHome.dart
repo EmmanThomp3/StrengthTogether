@@ -8,7 +8,6 @@ import 'package:strength_together/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CounselorHome extends StatelessWidget {
-  final AuthService _auth = AuthService();
   final SUser user;
   final DocumentSnapshot userData;
   CounselorHome({Key key, this.user, this.userData}) : super(key: key);
@@ -79,11 +78,15 @@ class SecondWidget extends StatelessWidget {
                     child: Material(
                       child:InkWell(
                         onTap:(){
+                          var newUserData = Provider.of<QuerySnapshot>(context,listen:false)
+                            .docs[index]
+                            .data();
+                          newUserData['uid'] = Provider.of<QuerySnapshot>(context,listen:false)
+                            .docs[index].id;
+                            print(newUserData['uid']);
                            return Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) => StudentInformation(
-                            user:Provider.of<QuerySnapshot>(context)
-                            .docs[index]
-                            .data()
+                            user:newUserData
                           )),
                         );
                         },

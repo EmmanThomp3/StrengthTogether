@@ -1,23 +1,42 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:strength_together/Screens/authenticate/sign_in.dart';
 import 'package:strength_together/services/auth.dart';
 import 'package:strength_together/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:strength_together/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:strength_together/shared/decrypter.dart';
 import 'package:strength_together/shared/loading.dart';
 
-class StudentInformation extends StatelessWidget {
-  final AuthService _auth = AuthService();
+class StudentInformation extends StatefulWidget {
   final Map<String, dynamic> user;
   StudentInformation({
     Key key,
     this.user,
   }) : super(key: key);
+
+  @override
+  _StudentInformationState createState() => _StudentInformationState();
+}
+
+class _StudentInformationState extends State<StudentInformation> {
+  final AuthService _auth = AuthService();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+   Stream<QuerySnapshot> stream;
+   var chosenData = {};
+
+  @override
+  void initState(){
+    super.initState();
+    stream = DatabaseService().allSummaryData;
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+     return Scaffold(
         backgroundColor: Colors.grey[400],
         appBar: AppBar(
           title: Text(
@@ -44,6 +63,10 @@ class StudentInformation extends StatelessWidget {
               ),
               onPressed: () async {
                 await _auth.signOut();
+                  return Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => SignIn(
+                          )),
+                        );
               },
             )
           ],
@@ -71,7 +94,7 @@ class StudentInformation extends StatelessWidget {
                                   Radius.circular(8.0),
                                 ),
                               ),
-                              imageUrl: user['imageUrl']??'',
+                              imageUrl: widget.user['imageUrl']??'',
                               width: 140.0,
                               height: 140.0,
                               fit: BoxFit.cover,
@@ -83,9 +106,40 @@ class StudentInformation extends StatelessWidget {
                       ]),
                   SizedBox(height: 20),
                   Text(
-                    user['name'] ?? '',
+                    widget.user['name'] ?? '',
                     style: TextStyle(color: Colors.yellow),
                   ),
+                  SizedBox(height: 20),
+                StreamBuilder(
+                  stream: stream,
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasData) {
+                      var testData;
+                      for(var i=0;i<snapshot.data.docs.length;i++){
+                        testData = json.decode(decryptAESCryptoJS(snapshot.data.docs[i].data()['encrypted'],'strengthtogether2020'));
+                        print(testData);
+                        print(widget.user['uid']);
+                        if(testData['uid'] == widget.user['uid']){
+                          chosenData = testData;
+                            return Column(children:<Widget>[Text(
+                    'Average Intensity: '+testData['avgIntensity'].toString()??'',
+                    style: TextStyle(color: Colors.yellow),
+                  ),
+                  Text(
+                    'Average Score: '+testData['avgScore'].toString()??'',
+                    style: TextStyle(color: Colors.yellow),
+                  ),
+                  Text(
+                    'Keywords: '+testData['keywords'].toString()??'',
+                    style: TextStyle(color: Colors.yellow),
+                  )]);
+                        }
+                      }
+                     return Container();
+                    }else{
+                      return Container();
+                    }
+                  })
                 ]),
           ),
         ));

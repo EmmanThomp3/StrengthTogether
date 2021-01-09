@@ -8,6 +8,10 @@ import 'package:strength_together/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:strength_together/shared/loading.dart';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c210f85b6ebab25e4b1e6147ae3628362a671e43
 class SessionCompleted extends StatelessWidget {
   final AuthService _auth = AuthService();
   final Map<String, dynamic> user;
@@ -51,14 +55,22 @@ class SessionCompleted extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Container(
+<<<<<<< HEAD
             // height: 50,
+=======
+           // height: 50,
+>>>>>>> c210f85b6ebab25e4b1e6147ae3628362a671e43
             color: Colors.grey[900],
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
+<<<<<<< HEAD
                    'You\'ve completed your session ',
+=======
+                    'Session Completed',
+>>>>>>> c210f85b6ebab25e4b1e6147ae3628362a671e43
                     style: TextStyle(color: Colors.yellow),
                   ),
                 ]),
