@@ -2,13 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:strength_together/services/auth.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:strength_together/services/database.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:strength_together/models/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Home extends StatefulWidget {
+class StreamHome extends StatelessWidget {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final SUser user;
+  final DocumentSnapshot userData;
+  StreamHome({Key key, this.user, this.userData}) : super(key: key);
   @override
-  _HomeState createState() => _HomeState();
+  Widget build(BuildContext context) {
+    return StreamProvider<DocumentSnapshot>.value(
+      value: DatabaseService(uid: _auth.currentUser.uid).specificUserData,
+      child: Home(),
+    );
+  }
 }
 
-class _HomeState extends State<Home> {
+class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
   void customLaunch(command) async{
     if(await canLaunch(command)){
@@ -19,7 +33,16 @@ class _HomeState extends State<Home> {
   }
   @override
   Widget build(BuildContext context) {
-    return WebviewScaffold(
+    if(Provider.of<DocumentSnapshot>(context) != null){
+      if(Provider.of<DocumentSnapshot>(context) a){
+
+      }else{
+
+      }
+    }
+    return ).docs[index].data() !=
+        null && !Provider.of<QuerySnapshot>(context).docs[index].data()['active'] !=
+        null ? WebviewScaffold(
       appBar: AppBar(
         title: Text(
           'ST',

@@ -30,4 +30,9 @@ class DatabaseService {
     return userCollection.snapshots();
   }
 
+  //get specific user data stream
+  Stream<DocumentSnapshot> get specificUserData {
+    return userCollection.doc(uid).snapshots();
+  }
+
 }
