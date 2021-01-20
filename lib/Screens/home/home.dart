@@ -24,6 +24,7 @@ class Home extends StatelessWidget {
 }
 
 class HomeChild extends StatelessWidget {
+  final FirebaseAuth _mainAuth = FirebaseAuth.instance;
   final AuthService _auth = AuthService();
   final FirebaseAuth _uid = FirebaseAuth.instance;
   void customLaunch(command) async {
@@ -85,7 +86,8 @@ class HomeChild extends StatelessWidget {
                   ),
                 ),
                 onPressed: () async {
-                  await _auth.signOut();
+                  await DatabaseService(uid: _mainAuth.currentUser.uid).updateUserStatus();
+                  return await _auth.signOut();
                 },
               )
             ],
@@ -138,7 +140,8 @@ class HomeChild extends StatelessWidget {
                   ),
                 ),
                 onPressed: () async {
-                  await _auth.signOut();
+                   await DatabaseService(uid: _mainAuth.currentUser.uid).updateUserStatus();
+                  return await _auth.signOut();
                 },
               )
             ],

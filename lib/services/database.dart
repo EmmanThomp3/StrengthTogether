@@ -27,6 +27,12 @@ class DatabaseService {
     });
   }
 
+    Future updateUserStatus() async {
+    return await userCollection.doc(uid).update({
+      'active':true,
+    });
+  }
+
   //get user data stream
   Stream<QuerySnapshot> get userData {
     return userCollection.snapshots();
