@@ -10,10 +10,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:strength_together/models/user.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Home({Key key}) : super(key: key);
+   @override
+  void initState()async{
+    super.initState();
+    await DatabaseService(uid: _auth.currentUser.uid).updateUserStatus();
+
+  }
   @override
   Widget build(BuildContext context) {
     return StreamProvider<DocumentSnapshot>.value(
@@ -24,6 +34,7 @@ class Home extends StatelessWidget {
 }
 
 class HomeChild extends StatelessWidget {
+  final FirebaseAuth _mainAuth = FirebaseAuth.instance;
   final AuthService _auth = AuthService();
   final FirebaseAuth _uid = FirebaseAuth.instance;
   void customLaunch(command) async {
@@ -85,7 +96,7 @@ class HomeChild extends StatelessWidget {
                   ),
                 ),
                 onPressed: () async {
-                  await _auth.signOut();
+                  return await _auth.signOut();
                 },
               )
             ],
@@ -138,7 +149,8 @@ class HomeChild extends StatelessWidget {
                   ),
                 ),
                 onPressed: () async {
-                  await _auth.signOut();
+                 
+                  return await _auth.signOut();
                 },
               )
             ],
