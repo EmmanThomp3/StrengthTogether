@@ -38,6 +38,10 @@ class HomeChild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('uid->');
+    print(_uid.currentUser.uid);
+    print('uid->');
+
     if (Provider.of<DocumentSnapshot>(context) != null && Provider.of<DocumentSnapshot>(context).data() != null) {
       if (Provider.of<DocumentSnapshot>(context).data()['active'] != null){
           if(Provider.of<DocumentSnapshot>(context).data()['active']) {

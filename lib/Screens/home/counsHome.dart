@@ -73,14 +73,19 @@ class SecondWidget extends StatelessWidget {
                         .docs[index]
                         .data()['encrypted'],
                     'strengthtogether2020'));
+                    print(testData);
                 return StreamBuilder(
                     stream:
                         DatabaseService(uid: testData['uid']).specificUserData,
                     builder:
                         (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                       if (snapshot.hasData) {
-                        if (snapshot.data.data()['counselors Email'] ==
+                        print('---');
+                        print(snapshot.data.data());
+                        print(auth.currentUser.email);
+                        if (snapshot.data.data() != null && snapshot.data.data()['counselors Email'] ==
                             auth.currentUser.email) {
+                              print('true');
                           return Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Material(

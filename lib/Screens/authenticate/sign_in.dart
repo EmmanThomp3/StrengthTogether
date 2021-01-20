@@ -98,9 +98,9 @@ class _SignInState extends State<SignIn> {
                         loading = false;
                       });
                     }else{
-                      setState((){
-                        loading = false;
-                      });
+                      // setState((){
+                      //   loading = false;
+                      // });
 
                       print(result.toString());
                     }
